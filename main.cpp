@@ -2,13 +2,22 @@
 
 class Player {
 public:
+    // assets
     sf::Texture idleStrip;
     sf::Sprite sprite;
+
+    // transforms
+    enum Direction { Left, Right};
+    Direction direction;
+
     sf::Vector2f position;
 
-    Player() : idleStrip("../../assets/image/brawler/idle.png"), sprite(idleStrip), position(0, 0) {
+    Player() : idleStrip("../../assets/image/brawler/idle.png"), sprite(idleStrip), position(400, 300) {
+        direction = Right;
+
         sprite.setTextureRect(sf::IntRect({0, 0}, {24, 32}));
-        sprite.setScale({3, 3});
+        sprite.setOrigin({12, 16});
+        sprite.setScale({2.5f, 2.5f});
     }
 
     void update(float delta) {
@@ -19,8 +28,12 @@ public:
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
+            direction = Left;
+            sprite.setScale({-2.5f, 2.5f});
             position.x -= 2.f;
         } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
+            direction = Right;
+            sprite.setScale({2.5f, 2.5f});;
             position.x += 2.f;
         }
 
