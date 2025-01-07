@@ -35,7 +35,7 @@ namespace Game {
         const float speed = 80;
 
         Player(const float scale) :
-            textureSheet("../../assets/image/brawler/sheet.png"), sprite(textureSheet), position(100, 500),
+            textureSheet("assets/image/brawler/sheet.png"), sprite(textureSheet), position(100, 500),
             spriteScale(scale) {
             currentFrame = 0;
             direction = Right;
@@ -46,7 +46,7 @@ namespace Game {
             sprite.setScale({spriteScale, spriteScale});
         }
 
-        void update(float delta) {
+        void update(const float delta) {
             status = Idle;
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
@@ -91,7 +91,7 @@ int main() {
     sf::RenderWindow window = sf::RenderWindow(sf::VideoMode({windowWidth, windowHeight}), "Sprite Sheet Render");
     window.setFramerateLimit(60);
 
-    const sf::Texture scenarioTexture("../../assets/image/brawler/scenario.png");
+    const sf::Texture scenarioTexture("assets/image/brawler/scenario.png");
     sf::Sprite scenario(scenarioTexture);
 
     const float scenarioScale = static_cast<float>(window.getSize().y) / scenarioTexture.getSize().y;

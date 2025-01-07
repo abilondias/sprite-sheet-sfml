@@ -14,4 +14,4 @@ FetchContent_MakeAvailable(SFML)
 
 add_executable(sprite_sheet_sfml main.cpp)
 
-target_link_libraries(sprite_sheet_sfml PRIVATE SFML::Graphics SFML::Audio)
+target_link_libraries(sprite_sheet_sfml PRIVATE SFML::Graphics)
