@@ -21,7 +21,7 @@ namespace Game {
         Direction direction;
 
         enum Status { Idle = 0, WalkingUp = 1, Walking = 2 };
-        Status status;
+        Status status = Idle;
 
         // animation
         sf::Clock animationClock;
@@ -41,7 +41,7 @@ namespace Game {
             direction = Right;
 
             sprite.setTextureRect(sf::IntRect({0, 0}, spriteSize));
-            sprite.setOrigin({12, 16});
+            sprite.setOrigin({spriteSize.x * 0.5f, spriteSize.y * 0.5f});
 
             sprite.setScale({spriteScale, spriteScale});
         }
@@ -85,24 +85,29 @@ namespace Game {
 }; // namespace Game
 
 int main() {
-    constexpr unsigned windowWidth = 800;
-    constexpr unsigned windowHeight = 600;
+    constexpr float windowWidth = 800;
+    constexpr float windowHeight = 600;
 
-    sf::RenderWindow window = sf::RenderWindow(sf::VideoMode({windowWidth, windowHeight}), "Sprite Sheet Render");
+    sf::RenderWindow window(sf::VideoMode({static_cast<unsigned>(windowWidth), static_cast<unsigned>(windowHeight)}),
+                            "Sprite Sheet Render");
     window.setFramerateLimit(60);
 
     const sf::Texture scenarioTexture("assets/image/brawler/scenario.png");
     sf::Sprite scenario(scenarioTexture);
-
     const float scenarioScale = static_cast<float>(window.getSize().y) / scenarioTexture.getSize().y;
     scenario.setScale({scenarioScale, scenarioScale});
 
     const auto player = std::make_unique<Game::Player>(scenarioScale);
 
-    const float windowTextureWidth = window.getSize().x / scenarioScale;
-    sf::IntRect textureRect = {{0, 0}, {int(windowTextureWidth), int(scenarioTexture.getSize().y)}};
+    const float scenarioWidth = scenario.getGlobalBounds().size.x;
+    constexpr float halfWindowWidth = windowWidth * 0.5f;
+    constexpr float halfWindowHeight = windowHeight * 0.5f;
+    constexpr float minimumViewCenter = halfWindowWidth;
+    const float maximumViewCenter = scenarioWidth - halfWindowWidth;
 
     sf::Clock clock;
+
+    auto view = window.getView();
 
     while (window.isOpen()) {
         float delta = clock.restart().asSeconds();
@@ -115,18 +120,28 @@ int main() {
 
         player->update(delta);
 
-        // simple background and bounds handling by moving the texture rectangle based on the % of the screen
         // there's still free vertical movement
-        if (player->position.x < 0) {
-            player->position.x = 0;
-        } else if (player->position.x > window.getSize().x) {
-            player->position.x = windowWidth;
+        player->position.x = std::clamp(player->position.x, 0.f, scenarioWidth);
+        // TODO: use vertex array to create vertical bounds matching the scenario
+        player->position.y = std::clamp(player->position.y, 0.f, windowHeight);
+
+        // view handling based on the scenario size/image
+        // points on the screen based on the current view position, where the view should start moving
+        const float leftThreshold = view.getCenter().x - 0.4f * windowWidth;
+        const float rightThreshold = view.getCenter().x + 0.4f * windowWidth;
+
+        float viewCenterX = view.getCenter().x;
+        // calculate new center if player moves past the thresholds
+        if (player->position.x < leftThreshold) {
+            viewCenterX = player->position.x + 0.4f * windowWidth;
+            viewCenterX = std::clamp(viewCenterX, minimumViewCenter, maximumViewCenter);
+        } else if (player->position.x > rightThreshold) {
+            viewCenterX = player->position.x - 0.4f * windowWidth;
+            viewCenterX = std::clamp(viewCenterX, minimumViewCenter, maximumViewCenter);
         }
 
-        // ex.: player's x at 400 is 50%, so move half of it's possible distance without going out of the image bounds
-        const float backgroundPercent = player->position.x / windowWidth;
-        textureRect.position.x = backgroundPercent * (scenarioTexture.getSize().x - windowTextureWidth);
-        scenario.setTextureRect(textureRect);
+        view.setCenter({viewCenterX, halfWindowHeight});
+        window.setView(view);
 
         window.draw(scenario);
         window.draw(player->sprite);
