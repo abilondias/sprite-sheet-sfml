@@ -12,6 +12,15 @@ FetchContent_Declare(SFML
         SYSTEM)
 FetchContent_MakeAvailable(SFML)
 
-add_executable(sprite_sheet_sfml main.cpp)
+add_executable(sprite_sheet_sfml
+        main.cpp
+        src/Movement.h
+        src/Player.cpp
+        src/Player.h
+        src/Background.cpp
+        src/Background.h
+        src/Camera.cpp
+        src/Camera.h
+)
 
 target_link_libraries(sprite_sheet_sfml PRIVATE SFML::Graphics)

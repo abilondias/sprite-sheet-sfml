@@ -1,6 +1,6 @@
 # sprite-sheet-sfml
 
-Implementation of sprite based animations for character movement with SFML. All code resides in the `main.cpp` file.
+Implementation of sprite based animations for character movement with SFML. Code entrypoint resides in the `main.cpp` file.
 
 ## Tools used
 
