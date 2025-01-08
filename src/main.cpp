@@ -2,9 +2,9 @@
 #include <cmath>
 #include <string>
 
-#include "src/Background.h"
-#include "src/Camera.h"
-#include "src/Player.h"
+#include "Background.h"
+#include "Camera.h"
+#include "Player.h"
 
 int main() {
     // these values can be constexpr because there are no changes of the window size currently

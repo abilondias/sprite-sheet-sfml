@@ -13,7 +13,7 @@ FetchContent_Declare(SFML
 FetchContent_MakeAvailable(SFML)
 
 add_executable(sprite_sheet_sfml
-        main.cpp
+        src/main.cpp
         src/Movement.h
         src/Player.cpp
         src/Player.h
