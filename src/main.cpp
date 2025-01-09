@@ -5,6 +5,7 @@
 #include "Background.h"
 #include "Camera.h"
 #include "Player.h"
+#include "Enemy.h"
 
 float interpolate(float x, float t1, float t2, float s1, float s2) {
     const float f = (x - t1) / (t2 - t1);
@@ -37,11 +38,13 @@ int main() {
 
     const std::string backgroundTexturePath = "assets/image/brawler/scenario.png";
     const std::string playerTexturePath = "assets/image/brawler/sheet.png";
+    const std::string enemyTexturePath = "assets/image/brawler/enemy-sheet1.png";
 
     Game::Background background(backgroundTexturePath, window);
     Game::Player player(playerTexturePath, background.scale);
-    Game::Camera camera(player, window, background.width);
+    Game::Enemy enemy(enemyTexturePath, background.scale, player);
 
+    Game::Camera camera(player, window, background.width);
     sf::Clock clock;
 
     while (window.isOpen()) {
@@ -60,10 +63,15 @@ int main() {
         float playerY = std::clamp(player.getPosition().y, getScenarioBoundary(player.getPosition()), windowHeight);
         player.setPosition({playerX, playerY});
         camera.update(delta);
+        enemy.update(delta);
+        float enemyX = std::clamp(enemy.getPosition().x, 0.f, background.width);
+        float enemyY = std::clamp(enemy.getPosition().y, getScenarioBoundary(enemy.getPosition()), windowHeight);
+        enemy.setPosition({enemyX, enemyY});
 
         // render
         window.draw(background);
         window.draw(player);
+        window.draw(enemy);
 
         window.display();
     }

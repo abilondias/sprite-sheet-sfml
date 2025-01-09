@@ -12,6 +12,8 @@ add_executable(sprite_sheet_sfml
         src/Background.h
         src/Camera.cpp
         src/Camera.h
+        src/Enemy.cpp
+        src/Enemy.h
 )
 
 file(
