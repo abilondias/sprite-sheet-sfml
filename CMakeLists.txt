@@ -8,8 +8,8 @@ add_executable(sprite_sheet_sfml
         src/Movement.h
         src/Player.cpp
         src/Player.h
-        src/Background.cpp
-        src/Background.h
+        src/Scenario.cpp
+        src/Scenario.h
         src/Camera.cpp
         src/Camera.h
         src/Enemy.cpp

@@ -16,9 +16,9 @@ namespace Game {
         BoundsCheck(float X, std::variant<float, InterpolationValues> c) : x(X), check(c) {}
     };
 
-    class Background : public sf::Drawable {
+    class Scenario : public sf::Drawable {
     public:
-        Background(const std::string& texturePath, const sf::RenderWindow& window, const std::vector<BoundsCheck> bcs);
+        Scenario(const std::string& texturePath, const sf::RenderWindow& window, const std::vector<BoundsCheck> bcs);
 
         void update(const float& delta);
 

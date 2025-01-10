@@ -2,10 +2,10 @@
 #include <cmath>
 #include <string>
 
-#include "Background.h"
 #include "Camera.h"
 #include "Enemy.h"
 #include "Player.h"
+#include "Scenario.h"
 
 int main() {
     // these values can be constexpr because there are no changes of the window size currently
@@ -22,7 +22,7 @@ int main() {
     const std::string playerTexturePath = "assets/image/brawler/sheet.png";
     const std::string enemyTexturePath = "assets/image/brawler/enemy-sheet1.png";
 
-    Game::Background background(backgroundTexturePath, window,
+    Game::Scenario scenario(backgroundTexturePath, window,
                                 std::vector{
                                     Game::BoundsCheck(30, 315.f),
                                     Game::BoundsCheck(70, Game::InterpolationValues(30, 70, 315, 360)),
@@ -33,9 +33,9 @@ int main() {
                                     Game::BoundsCheck(std::numeric_limits<float>::max(), 260.f)
                                 });
 
-    Game::Player player(playerTexturePath, background.getScale());
-    Game::Enemy enemy(enemyTexturePath, background.getScale(), player);
-    Game::Camera camera(player, window, background.getWidth());
+    Game::Player player(playerTexturePath, scenario.getScale());
+    Game::Enemy enemy(enemyTexturePath, scenario.getScale(), player);
+    Game::Camera camera(player, window, scenario.getWidth());
 
     sf::Clock clock;
 
@@ -51,21 +51,21 @@ int main() {
 
         // update game objects
         player.update(delta);
-        float playerX = std::clamp(player.getPosition().x, 0.f, background.getWidth());
+        float playerX = std::clamp(player.getPosition().x, 0.f, scenario.getWidth());
         float playerY =
-            std::clamp(player.getPosition().y, background.getVerticalBounds(player.getPosition().x), windowHeight);
+            std::clamp(player.getPosition().y, scenario.getVerticalBounds(player.getPosition().x), windowHeight);
         player.setPosition({playerX, playerY});
 
         enemy.update(delta);
-        float enemyX = std::clamp(enemy.getPosition().x, 0.f, background.getWidth());
+        float enemyX = std::clamp(enemy.getPosition().x, 0.f, scenario.getWidth());
         float enemyY =
-            std::clamp(enemy.getPosition().y, background.getVerticalBounds(enemy.getPosition().x), windowHeight);
+            std::clamp(enemy.getPosition().y, scenario.getVerticalBounds(enemy.getPosition().x), windowHeight);
         enemy.setPosition({enemyX, enemyY});
 
         camera.update(delta);
 
         // render
-        window.draw(background);
+        window.draw(scenario);
         window.draw(player);
         window.draw(enemy);
 

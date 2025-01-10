@@ -1,9 +1,9 @@
 #include "Camera.h"
 
-Game::Camera::Camera(Player& p, sf::RenderWindow& w, const float& backgroundWidth) :
-    player(p), window(w), maximumViewCenter(backgroundWidth - halfWindowWidth) {}
+Game::Camera::Camera(Player& p, sf::RenderWindow& w, const float& scenarioWidth) :
+    player(p), window(w), maximumViewCenter(scenarioWidth - halfWindowWidth) {}
 
-// view handling based on the background image's size
+// view handling based on the scenario image's size
 // move view only when player reaches the thresholds
 void Game::Camera::update(const float&) {
     sf::View view = window.getView();
