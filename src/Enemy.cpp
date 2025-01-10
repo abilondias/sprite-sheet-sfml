@@ -2,7 +2,8 @@
 
 #include "Enemy.h"
 
-Game::Enemy::Enemy(const std::string& texturePath, const float& scale, Game::Player& p) : texture(texturePath), sprite(texture), position(400, 500), spriteScale(scale), player(p) {
+Game::Enemy::Enemy(const std::string& texturePath, const float& scale, Player& p) :
+    texture(texturePath), sprite(texture), position(400, 500), spriteScale(scale), player(p) {
     currentFrame = 0;
     direction = Right;
 
@@ -15,7 +16,7 @@ void Game::Enemy::update(const float& delta) {
     status = Idle;
     const auto distance = player.getPosition() - position;
 
-    if (std::abs(distance.x) < 50) {
+    if (std::abs(distance.x) < 50 && std::abs(distance.y) < 30) {
         status = Idle;
     } else {
         if (distance.x < 0) {

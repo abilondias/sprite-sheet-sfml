@@ -10,7 +10,7 @@ namespace Game {
         enum Direction { Left, Right };
         enum Status { Idle = 0, WalkingUp = 1, Walking = 2 };
 
-        Enemy(const std::string& texturePath, const float& scale, Game::Player& p);
+        Enemy(const std::string& texturePath, const float& scale, Player& p);
 
         void update(const float& delta);
 
@@ -20,6 +20,7 @@ namespace Game {
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
         sf::Sprite sprite;
+
     private:
         sf::Texture texture;
         sf::Vector2f position;
