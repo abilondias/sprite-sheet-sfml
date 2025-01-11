@@ -14,6 +14,11 @@ add_executable(sprite_sheet_sfml
         src/Camera.h
         src/Enemy.cpp
         src/Enemy.h
+
+        src/EventHandler.cpp
+        src/EventHandler.h
+        src/InputHandler.cpp
+        src/InputHandler.h
 )
 
 file(

@@ -4,6 +4,7 @@
 
 #include "Camera.h"
 #include "Enemy.h"
+#include "EventHandler.h"
 #include "Player.h"
 #include "Scenario.h"
 
@@ -16,11 +17,16 @@ int main() {
 
     sf::RenderWindow window(sf::VideoMode({static_cast<unsigned>(windowWidth), static_cast<unsigned>(windowHeight)}),
                             "Sprite Sheet Render");
+
+    Game::InputHandler inputs{};
+    Game::EventHandler events(window, inputs);
+
     window.setFramerateLimit(60);
 
     const std::string backgroundTexturePath = "assets/image/brawler/scenario.png";
     const std::string playerTexturePath = "assets/image/brawler/sheet.png";
     const std::string enemyTexturePath = "assets/image/brawler/enemy-sheet1.png";
+
 
     Game::Scenario scenario(backgroundTexturePath, window,
                                 std::vector{
@@ -41,11 +47,8 @@ int main() {
 
     while (window.isOpen()) {
         float delta = clock.restart().asSeconds();
-        while (const auto& e = window.pollEvent()) {
-            if (e->is<sf::Event::Closed>()) {
-                window.close();
-            }
-        }
+
+        events.poll();
 
         window.clear();
 
