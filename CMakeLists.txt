@@ -7,6 +7,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 add_executable(sprite_sheet_sfml
         src/main.cpp
         src/Movement.h
+        src/State.h
         src/Player.cpp
         src/Player.h
         src/Scenario.cpp
@@ -15,9 +16,6 @@ add_executable(sprite_sheet_sfml
         src/Camera.h
         src/Enemy.cpp
         src/Enemy.h
-
-        src/EventHandler.cpp
-        src/EventHandler.h
         src/InputHandler.cpp
         src/InputHandler.h
 )
