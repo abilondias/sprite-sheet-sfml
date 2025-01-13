@@ -34,18 +34,21 @@ namespace Game {
 
         void setWidth(float v);
 
+        float getHeight() const;
+
+        void setHeight(float v);
+
     private:
         sf::Texture texture;
-
         sf::Sprite sprite;
 
         float scale;
-
         float width;
+        float height;
 
         std::vector<BoundsCheck> boundsChecks;
 
-        float interpolate(float x, float t1, float t2, float s1, float s2) const;
+        float interpolate(float x, float t1, float t2, float s1, float s2);
     };
 
 } // namespace Game
